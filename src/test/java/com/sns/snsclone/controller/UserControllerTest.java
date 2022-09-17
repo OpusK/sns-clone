@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sns.snsclone.controller.request.UserJoinRequest;
+import com.sns.snsclone.exception.SnsApplicationException;
 import com.sns.snsclone.model.User;
 import com.sns.snsclone.service.UserService;
 
@@ -57,7 +58,7 @@ public class UserControllerTest {
         String userName = "userName";
         String password = "password";
 
-        when(userService.join()).thenThrow(new RuntimeException());
+        when(userService.join()).thenThrow(new SnsApplicationException());
 
         try {
             mockMvc.perform(post("/api/v1/users/join")
