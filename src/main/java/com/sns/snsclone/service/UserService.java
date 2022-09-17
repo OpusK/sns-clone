@@ -8,7 +8,7 @@ import com.sns.snsclone.model.User;
 public class UserService {
 
     // TODO: implement
-    public User join() {
+    public User join(String userName, String password) {
         return new User();
     }
     
