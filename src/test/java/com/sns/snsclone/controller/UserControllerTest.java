@@ -58,4 +58,43 @@ public class UserControllerTest {
                 .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
                 .andExpect(status().isConflict());
     }
+
+    @Test
+    public void LogIn() throws Exception {
+        String userName = "userName";
+        String password = "password";
+
+        when(userService.login()).thenReturn("test_token");
+
+        mockMvc.perform(post("/api/v1/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void LogIn_With_Not_Signed_Up_User_Name() throws Exception {
+        String userName = "userName";
+        String password = "password";
+
+        when(userService.login()).thenThrow(new SnsApplicationException());
+
+        mockMvc.perform(post("/api/v1/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void LogIn_With_Invalid_Password() throws Exception {
+        String userName = "userName";
+        String password = "password";
+
+        when(userService.login()).thenThrow(new SnsApplicationException());
+
+        mockMvc.perform(post("/api/v1/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
 }
