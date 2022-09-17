@@ -48,7 +48,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void SignUp_Already_Exsis_Name() throws Exception {
+    public void SignUp_Already_Exist_Name() throws Exception {
         String userName = "userName";
         String password = "password";
 
