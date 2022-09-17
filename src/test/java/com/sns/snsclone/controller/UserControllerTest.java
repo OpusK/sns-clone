@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sns.snsclone.controller.request.UserJoinRequest;
+import com.sns.snsclone.controller.request.UserLoginRequest;
 import com.sns.snsclone.exception.SnsApplicationException;
 import com.sns.snsclone.model.User;
 import com.sns.snsclone.service.UserService;
@@ -68,7 +69,7 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password)))).andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -81,7 +82,7 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password)))).andDo(print())
                 .andExpect(status().isNotFound());
     }
 
@@ -94,7 +95,7 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password)))).andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }
