@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -35,40 +34,28 @@ public class UserControllerTest {
     private UserService userService;
 
     @Test
-    public void SignUp() {
+    public void SignUp() throws Exception {
         String userName = "userName";
         String password = "password";
 
         when(userService.join()).thenReturn(mock(User.class));
 
-        try {
-            mockMvc.perform(post("/api/v1/users/join")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))
-                        ).andDo(print())
-                        .andExpect(status().isOk());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        mockMvc.perform(post("/api/v1/users/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void SignUp_Already_Exsis_Name() {
+    public void SignUp_Already_Exsis_Name() throws Exception {
         String userName = "userName";
         String password = "password";
 
         when(userService.join()).thenThrow(new SnsApplicationException());
 
-        try {
-            mockMvc.perform(post("/api/v1/users/join")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))
-                        ).andDo(print())
-                        .andExpect(status().isConflict());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        mockMvc.perform(post("/api/v1/users/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password)))).andDo(print())
+                .andExpect(status().isConflict());
     }
 }
