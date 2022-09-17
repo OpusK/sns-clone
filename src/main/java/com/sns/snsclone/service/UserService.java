@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.sns.snsclone.exception.SnsApplicationException;
 import com.sns.snsclone.model.User;
 import com.sns.snsclone.model.entity.UserEntity;
 import com.sns.snsclone.repository.UserEntityRepository;
@@ -28,7 +29,17 @@ public class UserService {
     }
     
     // TODO: implement
-    public String login() {
+    public String login(String userName, String password) {
+        // check if registered user
+        UserEntity userEntity = userEntityRepository.findByUserName(userName).orElseThrow(() -> new SnsApplicationException());
+
+        // check password is valid
+        if (!userEntity.getPassword().equals(password)) {
+            throw new SnsApplicationException();
+        }
+
+        // generate token
+
         return "";
     }
 }
